@@ -3,7 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Animal } from '../entities/animal.entity';
 import { CreateAnimalInput, UpdateAnimalInput } from './animal.input';
-import { AnimalOrderBy, AnimalSpeciesCount, PersonWithMostAnimals, PersonWithMostCats } from './animal.types';
+import {
+  AnimalOrderBy, AnimalSpeciesCount, PersonWithMostAnimals,
+  PersonWithMostCats, MostHeavyweightAnimal, HeaviestAnimalGroup
+} from './animal.types';
 
 @Injectable()
 export class AnimalService {
@@ -70,7 +73,6 @@ export class AnimalService {
     };
   }
 
-
   async findPersonWithMostCats(): Promise<PersonWithMostCats> {
     const result = await this.animalRepository
       .createQueryBuilder('animal')
@@ -85,18 +87,74 @@ export class AnimalService {
       .limit(1)
       .getRawOne();
 
-      if (!result) {
-        throw new NotFoundException('No person with cats found');
-      }
-  
-      return {
-        id: result.id,
-        firstName: result.firstName,
-        lastName: result.lastName,
-        catCount: parseInt(result.catCount, 10)
-      };
+    if (!result) {
+      throw new NotFoundException('No person with cats found');
     }
 
+    return {
+      id: result.id,
+      firstName: result.firstName,
+      lastName: result.lastName,
+      catCount: parseInt(result.catCount, 10)
+    };
+  }
+
+  async findMostHeavyweightAnimal(): Promise<MostHeavyweightAnimal> {
+    const result = await this.animalRepository
+      .createQueryBuilder('animal')
+      .select('animal.id', 'id')
+      .addSelect('animal.name', 'name')
+      .addSelect('animal.weight', 'weight')
+      .addSelect('owner.id', 'ownerId')
+      .addSelect('owner.firstName', 'ownerFirstName')
+      .addSelect('owner.lastName', 'ownerLastName')
+      .leftJoin('animal.owner', 'owner')
+      .orderBy('animal.weight', 'DESC')
+      .limit(1)
+      .getRawOne();
+
+    if (!result) {
+      throw new NotFoundException('No animals found');
+    }
+
+    return {
+      id: result.id,
+      name: result.name,
+      weight: result.weight,
+      owner: {
+        id: result.ownerId,
+        firstName: result.ownerFirstName,
+        lastName: result.ownerLastName
+      }
+    };
+  }
+
+  async findHeaviestAnimalGroup(): Promise<HeaviestAnimalGroup> {
+    const result = await this.animalRepository
+      .createQueryBuilder('animal')
+      .select('owner.id', 'ownerId')
+      .addSelect('owner.firstName', 'ownerFirstName')
+      .addSelect('owner.lastName', 'ownerLastName')
+      .addSelect('SUM(animal.weight)', 'totalWeight')
+      .leftJoin('animal.owner', 'owner')
+      .groupBy('owner.id')
+      .orderBy('totalWeight', 'DESC')
+      .limit(1)
+      .getRawOne();
+
+    if (!result) {
+      throw new NotFoundException('No animals found');
+    }
+
+    return {
+      owner: {
+        id: result.ownerId,
+        firstName: result.ownerFirstName,
+        lastName: result.ownerLastName
+      },
+      totalWeight: parseFloat(result.totalWeight)
+    };
+  }
 
   async findOne(id: number): Promise<Animal> {
     return this.animalRepository.findOne({

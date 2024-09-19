@@ -27,6 +27,12 @@ type Person {
   animals: [Animal!]!
 }
 
+type Owner {
+  id: Int!
+  firstName: String!
+  lastName: String!
+}
+
 type AnimalSpeciesCount {
   species: String!
   count: Int!
@@ -46,12 +52,26 @@ type PersonWithMostCats {
   catCount: Int!
 }
 
+type MostHeavyweightAnimal {
+  id: Int!
+  name: String!
+  weight: Int!
+  owner: Owner!
+}
+
+type HeaviestAnimalGroup {
+  owner: Owner!
+  totalWeight: Float!
+}
+
 type Query {
   hello: String!
   animals(orderBy: AnimalOrderBy): [Animal!]!
   mostRepresentedSpecies: AnimalSpeciesCount!
   personWithMostAnimals: PersonWithMostAnimals!
   personWithMostCats: PersonWithMostCats!
+  mostHeavyweightAnimal: MostHeavyweightAnimal!
+  heaviestAnimalGroup: HeaviestAnimalGroup!
   animal(id: Int!): Animal!
   persons: [Person!]!
   person(id: Int!): Person!

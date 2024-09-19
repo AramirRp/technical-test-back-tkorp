@@ -1,12 +1,15 @@
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is The backend part of the technical test made for TKorp. This is using NestJs as framework, with a MySQL server and all queries are made using GraphQL. 
 
 ## Project setup
 
 ```bash
 $ npm install
 ```
+
+If you want to use yourself a MySQL server, you'll need to edit the ormconfig.json to your convenience and personnal settings. You'll find a data-SQL.txt file where you'll find every SQL data.
+
 
 ## Compile and run the project
 
@@ -20,45 +23,6 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 ## Questions
 
@@ -107,4 +71,34 @@ firstName
 lastName
 catCount
 }
+}
+
+5- Qui possède l’animal le plus lourd ? Comment s’appelle cet animal et quel est
+son poids ? Emma Smith avec Chloe (49937)
+
+query {
+  mostHeavyweightAnimal {
+    id
+    name
+    weight
+    owner {
+      id
+      firstName
+      lastName
+    }
+  }
+}
+
+6- Qui possède le groupe d’animaux le plus lourd ? Quel est le poids total de ce
+groupe d’animaux ? Sophie Brown (172152)
+
+query {
+  heaviestAnimalGroup {
+    owner {
+      id
+      firstName
+      lastName
+    }
+    totalWeight
+  }
 }
