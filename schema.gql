@@ -2,6 +2,35 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Animal {
+  id: ID!
+  name: String!
+  dateOfBirth: DateTime!
+  species: String!
+  breed: String!
+  color: String!
+  weight: Float!
+  owner: Person!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Person {
+  id: ID!
+  lastName: String!
+  firstName: String!
+  email: String!
+  phoneNumber: String!
+  animals: [Animal!]!
+}
+
 type Query {
   hello: String!
+  animals: [Animal!]!
+  animal(id: Int!): Animal!
+  persons: [Person!]!
+  person(id: Int!): Person!
 }

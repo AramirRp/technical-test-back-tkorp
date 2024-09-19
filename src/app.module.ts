@@ -7,9 +7,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Person } from './entities/person.entity';
 import { Animal } from './entities/animal.entity';
-import { PersonModule } from './person/person.module';
-import { AnimalModule } from './animal/animal.module';
 import { AppResolver } from './app.resolver';
+import { AnimalOwnerModule } from './animalOwnerModule';
 
 export const typeORMConfig: TypeOrmModuleOptions = {
   type: 'mysql' as 'mysql',
@@ -26,15 +25,14 @@ export const typeORMConfig: TypeOrmModuleOptions = {
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeORMConfig),
-    PersonModule,
-    AnimalModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
     }),
+    AnimalOwnerModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })
 
-export class AppModule {}
+export class AppModule { }
