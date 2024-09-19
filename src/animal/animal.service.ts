@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Animal } from '../entities/animal.entity';
+import { CreateAnimalInput, UpdateAnimalInput } from './animal.input';
+import { AnimalOrderBy } from './animal.types';
 
 @Injectable()
 export class AnimalService {
@@ -10,8 +12,18 @@ export class AnimalService {
     private animalRepository: Repository<Animal>,
   ) {}
 
-  async findAll(): Promise<Animal[]> {
-    return this.animalRepository.find({ relations: ['owner'] });
+  async findAll(orderBy?: AnimalOrderBy): Promise<Animal[]> {
+    const query = this.animalRepository
+      .createQueryBuilder('animal')
+      .leftJoinAndSelect('animal.owner', 'owner');
+
+    if (orderBy === AnimalOrderBy.DATE_OF_BIRTH_ASC) {
+      query.orderBy('animal.dateOfBirth', 'ASC');
+    } else if (orderBy === AnimalOrderBy.DATE_OF_BIRTH_DESC) {
+      query.orderBy('animal.dateOfBirth', 'DESC');
+    }
+
+    return query.getMany();
   }
 
   async findOne(id: number): Promise<Animal> {

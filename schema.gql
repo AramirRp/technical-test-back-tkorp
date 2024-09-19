@@ -29,8 +29,56 @@ type Person {
 
 type Query {
   hello: String!
-  animals: [Animal!]!
+  animals(orderBy: AnimalOrderBy): [Animal!]!
   animal(id: Int!): Animal!
   persons: [Person!]!
   person(id: Int!): Person!
+}
+
+enum AnimalOrderBy {
+  DATE_OF_BIRTH_ASC
+  DATE_OF_BIRTH_DESC
+}
+
+type Mutation {
+  createAnimal(createAnimalInput: CreateAnimalInput!): Animal!
+  updateAnimal(id: Int!, updateAnimalInput: UpdateAnimalInput!): Animal!
+  removeAnimal(id: Int!): Boolean!
+  createPerson(createPersonInput: CreatePersonInput!): Person!
+  updatePerson(id: Int!, updatePersonInput: UpdatePersonInput!): Person!
+  removePerson(id: Int!): Boolean!
+}
+
+input CreateAnimalInput {
+  name: String!
+  dateOfBirth: DateTime!
+  species: String!
+  breed: String!
+  color: String!
+  weight: Float!
+  ownerId: Int!
+}
+
+input UpdateAnimalInput {
+  name: String
+  dateOfBirth: DateTime
+  species: String
+  breed: String
+  color: String
+  weight: Float
+  ownerId: Int
+}
+
+input CreatePersonInput {
+  lastName: String!
+  firstName: String!
+  email: String!
+  phoneNumber: String!
+}
+
+input UpdatePersonInput {
+  lastName: String
+  firstName: String
+  email: String
+  phoneNumber: String
 }

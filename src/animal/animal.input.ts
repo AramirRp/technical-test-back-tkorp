@@ -1,5 +1,4 @@
 import { InputType, Field, Int, Float } from '@nestjs/graphql';
-
 @InputType()
 export class CreateAnimalInput {
   @Field()
