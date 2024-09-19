@@ -21,15 +21,30 @@ export class AnimalSpeciesCount {
 
 @ObjectType()
 export class PersonWithMostAnimals {
-  @Field(() => Int)
-  id: number;
+    @Field(() => Int)
+    id: number;
 
-  @Field()
-  firstName: string;
+    @Field()
+    firstName: string;
 
-  @Field()
-  lastName: string;
+    @Field()
+    lastName: string;
 
-  @Field(() => Int)
-  animalCount: number;
+    @Field(() => Int)
+    animalCount: number;
+}
+
+@ObjectType()
+export class PersonWithMostCats {
+    @Field(() => Int)
+    id: number;
+
+    @Field()
+    firstName: string;
+
+    @Field()
+    lastName: string;
+    
+    @Field(() => Int)
+    catCount: number;
 }

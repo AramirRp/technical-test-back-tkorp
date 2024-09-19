@@ -63,37 +63,48 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 ## Questions
 
 1- Quel animal est le plus vieux ? ROCKY (né le 2009-09-20)
-Requête query : 
+Requête query :
 
-  query {
-  animals(orderBy: DATE_OF_BIRTH_ASC) {
-    id
-    name
-    dateOfBirth
-    owner {
-      id
-      firstName
-      lastName
-    }
-  }
+query {
+animals(orderBy: DATE_OF_BIRTH_ASC) {
+id
+name
+dateOfBirth
+owner {
+id
+firstName
+lastName
+}
+}
 }
 
 2 - Quelle espèce est la mieux représentée ? Bird (179)
 
 query {
-  mostRepresentedSpecies {
-    species
-    count
-  }
+mostRepresentedSpecies {
+species
+count
+}
 }
 
-3 - Quelle personne possède le plus d’animaux ? Sarah (6)
- 
- query {
-  personWithMostAnimals {
-    id
-    firstName
-    lastName
-    animalCount
-  }
+3 - Quelle personne possède le plus d’animaux ? David White (179)
+
+query {
+personWithMostAnimals {
+id
+firstName
+lastName
+animalCount
+}
+}
+
+4 - Quelle personne possède le plus de chats ? Sarah White (4)
+
+query {
+personWithMostCats {
+id
+firstName
+lastName
+catCount
+}
 }

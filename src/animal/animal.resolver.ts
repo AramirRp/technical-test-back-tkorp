@@ -2,11 +2,11 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { AnimalService } from './animal.service';
 import { Animal } from '../entities/animal.entity';
 import { CreateAnimalInput, UpdateAnimalInput } from './animal.input';
-import { AnimalOrderBy, AnimalSpeciesCount, PersonWithMostAnimals } from './animal.types';
+import { AnimalOrderBy, AnimalSpeciesCount, PersonWithMostAnimals, PersonWithMostCats } from './animal.types';
 
 @Resolver(() => Animal)
 export class AnimalResolver {
-  constructor(private animalService: AnimalService) {}
+  constructor(private animalService: AnimalService) { }
 
   @Query(() => [Animal])
   async animals(
@@ -25,6 +25,12 @@ export class AnimalResolver {
   async personWithMostAnimals() {
     return this.animalService.findPersonWithMostAnimals();
   }
+
+  @Query(() => PersonWithMostCats)
+  async personWithMostCats() {
+    return this.animalService.findPersonWithMostCats();
+  }
+
 
   @Query(() => Animal)
   async animal(@Args('id', { type: () => Int }) id: number) {

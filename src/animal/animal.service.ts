@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Animal } from '../entities/animal.entity';
 import { CreateAnimalInput, UpdateAnimalInput } from './animal.input';
-import { AnimalOrderBy, AnimalSpeciesCount, PersonWithMostAnimals } from './animal.types';
+import { AnimalOrderBy, AnimalSpeciesCount, PersonWithMostAnimals, PersonWithMostCats } from './animal.types';
 
 @Injectable()
 export class AnimalService {
@@ -46,30 +46,57 @@ export class AnimalService {
   }
 
   async findPersonWithMostAnimals(): Promise<PersonWithMostAnimals> {
-  const result = await this.animalRepository
-    .createQueryBuilder('animal')
-    .select('animal.owner.id', 'id')
-    .addSelect('owner.firstName', 'firstName')
-    .addSelect('owner.lastName', 'lastName')
-    .addSelect('COUNT(animal.id)', 'animalCount')
-    .leftJoin('animal.owner', 'owner')
-    .groupBy('animal.owner.id')
-    .orderBy('animalCount', 'DESC')
-    .limit(1)
-    .getRawOne();
+    const result = await this.animalRepository
+      .createQueryBuilder('animal')
+      .select('animal.owner.id', 'id')
+      .addSelect('owner.firstName', 'firstName')
+      .addSelect('owner.lastName', 'lastName')
+      .addSelect('COUNT(animal.id)', 'animalCount')
+      .leftJoin('animal.owner', 'owner')
+      .groupBy('animal.species')
+      .orderBy('animalCount', 'DESC')
+      .limit(1)
+      .getRawOne();
 
-  if (!result) {
-    throw new NotFoundException('No person with animals found');
+    if (!result) {
+      throw new NotFoundException('No person with cats found');
+    }
+
+    return {
+      id: result.id,
+      firstName: result.firstName,
+      lastName: result.lastName,
+      animalCount: parseInt(result.animalCount, 10)
+    };
   }
 
-  return {
-    id: result.id,
-    firstName: result.firstName,
-    lastName: result.lastName,
-    animalCount: parseInt(result.animalCount, 10)
-  };
-}
+
+  async findPersonWithMostCats(): Promise<PersonWithMostCats> {
+    const result = await this.animalRepository
+      .createQueryBuilder('animal')
+      .select('owner.id', 'id')
+      .addSelect('owner.firstName', 'firstName')
+      .addSelect('owner.lastName', 'lastName')
+      .addSelect('COUNT(animal.id)', 'catCount')
+      .leftJoin('animal.owner', 'owner')
+      .where('animal.species = :species', { species: 'cat' })
+      .groupBy('owner.id')
+      .orderBy('catCount', 'DESC')
+      .limit(1)
+      .getRawOne();
+
+      if (!result) {
+        throw new NotFoundException('No person with cats found');
+      }
   
+      return {
+        id: result.id,
+        firstName: result.firstName,
+        lastName: result.lastName,
+        catCount: parseInt(result.catCount, 10)
+      };
+    }
+
 
   async findOne(id: number): Promise<Animal> {
     return this.animalRepository.findOne({
