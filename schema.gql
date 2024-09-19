@@ -27,9 +27,15 @@ type Person {
   animals: [Animal!]!
 }
 
+type AnimalSpeciesCount {
+  species: String!
+  count: Int!
+}
+
 type Query {
   hello: String!
   animals(orderBy: AnimalOrderBy): [Animal!]!
+  mostRepresentedSpecies: AnimalSpeciesCount!
   animal(id: Int!): Animal!
   persons: [Person!]!
   person(id: Int!): Person!

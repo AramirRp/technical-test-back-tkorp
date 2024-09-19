@@ -1,16 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Animal } from '../entities/animal.entity';
 import { CreateAnimalInput, UpdateAnimalInput } from './animal.input';
-import { AnimalOrderBy } from './animal.types';
+import { AnimalOrderBy, AnimalSpeciesCount } from './animal.types';
 
 @Injectable()
 export class AnimalService {
   constructor(
     @InjectRepository(Animal)
     private animalRepository: Repository<Animal>,
-  ) {}
+  ) { }
 
   async findAll(orderBy?: AnimalOrderBy): Promise<Animal[]> {
     const query = this.animalRepository
@@ -24,6 +24,25 @@ export class AnimalService {
     }
 
     return query.getMany();
+  }
+
+  async mostRepresentedSpecies(): Promise<AnimalSpeciesCount> {
+    const speciesCounts = await this.animalRepository
+      .createQueryBuilder('animal')
+      .select('animal.species', 'species')
+      .addSelect('COUNT(animal.id)', 'count')
+      .groupBy('animal.species')
+      .orderBy('count', 'DESC')
+      .getRawMany();
+
+    if (speciesCounts.length === 0) {
+      throw new NotFoundException('No animals found');
+    }
+
+    return {
+      species: speciesCounts[0].species,
+      count: parseInt(speciesCounts[0].count, 10)
+    };
   }
 
   async findOne(id: number): Promise<Animal> {
