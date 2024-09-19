@@ -87,5 +87,13 @@ query {
   }
 }
 
-3 - Quelle personne possède le plus d’animaux ?
+3 - Quelle personne possède le plus d’animaux ? Sarah (6)
  
+ query {
+  personWithMostAnimals {
+    id
+    firstName
+    lastName
+    animalCount
+  }
+}

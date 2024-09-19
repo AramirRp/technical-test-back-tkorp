@@ -2,19 +2,34 @@ import { registerEnumType } from '@nestjs/graphql';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 export enum AnimalOrderBy {
-  DATE_OF_BIRTH_ASC = 'DATE_OF_BIRTH_ASC',
-  DATE_OF_BIRTH_DESC = 'DATE_OF_BIRTH_DESC',
+    DATE_OF_BIRTH_ASC = 'DATE_OF_BIRTH_ASC',
+    DATE_OF_BIRTH_DESC = 'DATE_OF_BIRTH_DESC',
 }
 
 registerEnumType(AnimalOrderBy, {
-  name: 'AnimalOrderBy',
+    name: 'AnimalOrderBy',
 });
 
 @ObjectType()
 export class AnimalSpeciesCount {
+    @Field()
+    species: string;
+
+    @Field(() => Int)
+    count: number;
+}
+
+@ObjectType()
+export class PersonWithMostAnimals {
+  @Field(() => Int)
+  id: number;
+
   @Field()
-  species: string;
+  firstName: string;
+
+  @Field()
+  lastName: string;
 
   @Field(() => Int)
-  count: number;
+  animalCount: number;
 }

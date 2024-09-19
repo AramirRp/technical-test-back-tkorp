@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { AnimalService } from './animal.service';
 import { Animal } from '../entities/animal.entity';
 import { CreateAnimalInput, UpdateAnimalInput } from './animal.input';
-import { AnimalOrderBy, AnimalSpeciesCount } from './animal.types';
+import { AnimalOrderBy, AnimalSpeciesCount, PersonWithMostAnimals } from './animal.types';
 
 @Resolver(() => Animal)
 export class AnimalResolver {
@@ -19,6 +19,11 @@ export class AnimalResolver {
   @Query(() => AnimalSpeciesCount)
   async mostRepresentedSpecies() {
     return this.animalService.mostRepresentedSpecies();
+  }
+
+  @Query(() => PersonWithMostAnimals)
+  async personWithMostAnimals() {
+    return this.animalService.findPersonWithMostAnimals();
   }
 
   @Query(() => Animal)
