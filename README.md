@@ -23,7 +23,7 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 
-# default port : localhost:3000
+# default port : localhost:3000 or localhost:3002
 
 ```
 
