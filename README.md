@@ -1,6 +1,6 @@
 ## Description
 
-This is The backend part of the technical test made for TKorp. This is using NestJs as framework, with a MySQL server and all queries are made using GraphQL. 
+This is the backend part of the technical test made for TKorp. This is using NestJs as framework, with a MySQL server and all queries are made using GraphQL. 
 
 ## Project setup
 
@@ -18,17 +18,22 @@ If you want to use yourself a MySQL server, you'll need to edit the ormconfig.js
 $ npm run start
 
 # watch mode
-$ npm run start:dev
+$ npm run start:dev 
 
 # production mode
 $ npm run start:prod
+
+# default port : localhost:3000
+
 ```
 
 ## Questions
 
-1- Quel animal est le plus vieux ? ROCKY (né le 2009-09-20)
-Requête query :
+1- Quel animal est le plus vieux ?
 
+Réponse : **ROCKY (né le 2009-09-20)**
+
+```sql
 query {
 animals(orderBy: DATE_OF_BIRTH_ASC) {
 id
@@ -41,18 +46,24 @@ lastName
 }
 }
 }
+```
+2 - Quelle espèce est la mieux représentée ? 
 
-2 - Quelle espèce est la mieux représentée ? Bird (179)
+Réponse : **Bird (179)**
 
+```sql
 query {
 mostRepresentedSpecies {
 species
 count
 }
 }
+```
+3 - Quelle personne possède le plus d’animaux ? 
 
-3 - Quelle personne possède le plus d’animaux ? David White (179)
+Réponse : **David White (179)**
 
+```sql
 query {
 personWithMostAnimals {
 id
@@ -61,9 +72,13 @@ lastName
 animalCount
 }
 }
+```
+4 - Quelle personne possède le plus de chats ? 
 
-4 - Quelle personne possède le plus de chats ? Sarah White (4)
+Réponse : **Sarah White (4)**
 
+
+```sql
 query {
 personWithMostCats {
 id
@@ -72,10 +87,14 @@ lastName
 catCount
 }
 }
-
+```
 5- Qui possède l’animal le plus lourd ? Comment s’appelle cet animal et quel est
-son poids ? Emma Smith avec Chloe (49937)
+son poids ?
 
+Réponse : **Emma Smith avec Chloe (49937)**
+
+
+```sql
 query {
   mostHeavyweightAnimal {
     id
@@ -88,10 +107,14 @@ query {
     }
   }
 }
-
+```
 6- Qui possède le groupe d’animaux le plus lourd ? Quel est le poids total de ce
-groupe d’animaux ? Sophie Brown (172152)
+groupe d’animaux ? 
 
+Réponse : **Sophie Brown (172152)**
+
+
+```sql
 query {
   heaviestAnimalGroup {
     owner {
@@ -102,3 +125,4 @@ query {
     totalWeight
   }
 }
+```
