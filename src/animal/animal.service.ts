@@ -4,8 +4,12 @@ import { Repository } from 'typeorm';
 import { Animal } from '../entities/animal.entity';
 import { CreateAnimalInput, UpdateAnimalInput } from './animal.input';
 import {
-  AnimalOrderBy, AnimalSpeciesCount, PersonWithMostAnimals,
-  PersonWithMostCats, MostHeavyweightAnimal, HeaviestAnimalGroup
+  AnimalOrderBy,
+  AnimalSpeciesCount,
+  PersonWithMostAnimals,
+  PersonWithMostCats,
+  MostHeavyweightAnimal,
+  HeaviestAnimalGroup,
 } from './animal.types';
 
 @Injectable()
@@ -13,7 +17,7 @@ export class AnimalService {
   constructor(
     @InjectRepository(Animal)
     private animalRepository: Repository<Animal>,
-  ) { }
+  ) {}
 
   async findAll(orderBy?: AnimalOrderBy): Promise<Animal[]> {
     const query = this.animalRepository
@@ -44,7 +48,7 @@ export class AnimalService {
 
     return {
       species: speciesCounts[0].species,
-      count: parseInt(speciesCounts[0].count, 10)
+      count: parseInt(speciesCounts[0].count, 10),
     };
   }
 
@@ -62,14 +66,14 @@ export class AnimalService {
       .getRawOne();
 
     if (!result) {
-      throw new NotFoundException('No person with cats found');
+      throw new NotFoundException('No person with animal found');
     }
 
     return {
       id: result.id,
       firstName: result.firstName,
       lastName: result.lastName,
-      animalCount: parseInt(result.animalCount, 10)
+      animalCount: parseInt(result.animalCount, 10),
     };
   }
 
@@ -95,7 +99,7 @@ export class AnimalService {
       id: result.id,
       firstName: result.firstName,
       lastName: result.lastName,
-      catCount: parseInt(result.catCount, 10)
+      catCount: parseInt(result.catCount, 10),
     };
   }
 
@@ -124,8 +128,8 @@ export class AnimalService {
       owner: {
         id: result.ownerId,
         firstName: result.ownerFirstName,
-        lastName: result.ownerLastName
-      }
+        lastName: result.ownerLastName,
+      },
     };
   }
 
@@ -150,9 +154,9 @@ export class AnimalService {
       owner: {
         id: result.ownerId,
         firstName: result.ownerFirstName,
-        lastName: result.ownerLastName
+        lastName: result.ownerLastName,
       },
-      totalWeight: parseFloat(result.totalWeight)
+      totalWeight: parseFloat(result.totalWeight),
     };
   }
 

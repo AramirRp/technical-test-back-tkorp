@@ -2,12 +2,12 @@ import { registerEnumType } from '@nestjs/graphql';
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 
 export enum AnimalOrderBy {
-    DATE_OF_BIRTH_ASC = 'DATE_OF_BIRTH_ASC',
-    DATE_OF_BIRTH_DESC = 'DATE_OF_BIRTH_DESC',
+  DATE_OF_BIRTH_ASC = 'DATE_OF_BIRTH_ASC',
+  DATE_OF_BIRTH_DESC = 'DATE_OF_BIRTH_DESC',
 }
 
 registerEnumType(AnimalOrderBy, {
-    name: 'AnimalOrderBy',
+  name: 'AnimalOrderBy',
 });
 
 @ObjectType()
@@ -24,45 +24,45 @@ class Owner {
 
 @ObjectType()
 export class AnimalSpeciesCount {
-    @Field()
-    species: string;
+  @Field()
+  species: string;
 
-    @Field(() => Int)
-    count: number;
+  @Field(() => Int)
+  count: number;
 }
 
 @ObjectType()
 export class PersonWithMostAnimals {
-    @Field(() => Int)
-    id: number;
+  @Field(() => Int)
+  id: number;
 
-    @Field()
-    firstName: string;
+  @Field()
+  firstName: string;
 
-    @Field()
-    lastName: string;
+  @Field()
+  lastName: string;
 
-    @Field(() => Int)
-    animalCount: number;
+  @Field(() => Int)
+  animalCount: number;
 }
 @ObjectType()
 export class PersonWithMostCats {
-    @Field(() => Int)
-    id: number;
+  @Field(() => Int)
+  id: number;
 
-    @Field()
-    firstName: string;
+  @Field()
+  firstName: string;
 
-    @Field()
-    lastName: string;
+  @Field()
+  lastName: string;
 
-    @Field(() => Int)
-    catCount: number;
+  @Field(() => Int)
+  catCount: number;
 }
 
 @ObjectType()
 export class MostHeavyweightAnimal {
-    @Field(() => Int)
+  @Field(() => Int)
   id: number;
 
   @Field()
@@ -73,7 +73,6 @@ export class MostHeavyweightAnimal {
 
   @Field(() => Owner)
   owner: Owner;
-
 }
 
 @ObjectType()

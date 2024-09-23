@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -31,8 +30,7 @@ export const typeORMConfig: TypeOrmModuleOptions = {
     }),
     AnimalOwnerModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [AppService, AppResolver],
 })
-
-export class AppModule { }
+export class AppModule {}
