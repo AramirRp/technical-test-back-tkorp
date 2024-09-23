@@ -1,6 +1,6 @@
 ## Description
 
-This is the backend part of the technical test made for TKorp. This is using NestJs as framework, with a MySQL server and all queries are made using GraphQL. 
+This is the backend part of the technical test made for TKorp. This is using NestJs as framework, with a MySQL server and all queries are made using GraphQL.  Here's the link to the front repo : [https://github.com/AramirRp/technical-test-back-tkorp](https://github.com/AramirRp/technical-test-front-tkorp).
 
 ## Project setup
 
